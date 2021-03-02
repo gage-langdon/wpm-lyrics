@@ -1,4 +1,9 @@
-export type dataType = { title: string; artist: string; text: string }
+export type dataType = {
+  title: string
+  artist: string
+  text: string
+  phrases: string[]
+}
 export default [
   {
     title: "Position",
