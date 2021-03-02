@@ -44,15 +44,24 @@ const Layout = ({ children }) => {
           <h2>Learn to type while singing your favorite songs</h2>
         </div> */}
         <main>{children}</main>
-        {/* <footer
+        <div
           style={{
-            marginTop: `2rem`,
+            display: "flex",
+            width: "100%",
           }}
         >
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </footer> */}
+          <a
+            href="https://gage-langdon.com"
+            style={{
+              marginLeft: "auto",
+              color: "white",
+              opacity: ".40",
+              textDecoration: "none",
+            }}
+          >
+            @gage-langdon
+          </a>
+        </div>
       </div>
     </div>
   )

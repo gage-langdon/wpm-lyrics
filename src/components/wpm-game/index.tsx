@@ -114,6 +114,17 @@ const WpmGame = () => {
           wordSpacing: "3px",
         }}
       >
+        {!keyboardInput.length ? (
+          <div
+            style={{
+              opacity: ".40",
+              position: "absolute",
+              marginTop: "-300px",
+            }}
+          >
+            Start typing
+          </div>
+        ) : null}
         {/* {wordsPerMinute}wpm - {secondsSinceGameStarted}s */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <p>
