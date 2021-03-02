@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react"
 import data, { dataType } from "./data"
+import BtnLink from "../../widgets/btn-link"
+import SpotifyIcon from "../../images/spotify.png"
+import YoutubeIcon from "../../images/youtube.png"
 
 const compareStringsWithSplice = (text, textToCompareTo) => {
-  console.log(text, textToCompareTo)
   if (!text || !textToCompareTo) return false
   // need to make the full text the same length as the input to see if the user
   // has typed in the right things so far
   const newChar = text[text.length - 1]
   const expectedChar = textToCompareTo[text.length - 1]
-  console.log(newChar, "=?=", expectedChar)
+  //   console.log(newChar, "=?=", expectedChar)
   return newChar === expectedChar
 }
 
@@ -87,10 +89,7 @@ const WpmGame = () => {
   // Game mechanics
   const onKeyboardInput = e => {
     const newInputValue = e.target.value
-    console.log(
-      newInputValue,
-      compareStringsWithSplice(newInputValue, currentSong[currentQueuePosition])
-    )
+
     if (newInputValue === `${keyboardInput}\n`) {
       initGameData()
       return
@@ -99,9 +98,6 @@ const WpmGame = () => {
       return
     }
 
-    if (!timeStampGameStarted) setTimeStampGameStarted(Date.now)
-
-    console.log("hit")
     // dock the user points and dont save new input (only allow players to type in correct characters)
     if (
       !compareStringsWithSplice(
@@ -110,6 +106,8 @@ const WpmGame = () => {
       )
     )
       return
+
+    if (!timeStampGameStarted) setTimeStampGameStarted(Date.now)
     setKeyboardInput(newInputValue)
   }
 
@@ -117,7 +115,7 @@ const WpmGame = () => {
     const currentPhrase = currentSong.phrases[currentQueuePosition]
     const allRemainingCharacters = currentPhrase.slice(
       keyboardInput.length,
-      currentSong.text.length
+      currentPhrase.length
     )
 
     const nextCharacter = allRemainingCharacters?.slice(0, 1)
@@ -158,23 +156,26 @@ const WpmGame = () => {
         }}
       >
         {!timeStampGameStarted ? (
-          <div
-            style={{
-              opacity: ".40",
-              position: "absolute",
-              marginTop: "-300px",
-              zIndex: 99999,
-            }}
-          >
-            Start typing to begin | Enter for{" "}
-            <button
-              type="button"
-              style={{ cursor: "pointer" }}
-              onClick={initGameData}
+          <>
+            <div
+              style={{
+                opacity: ".40",
+                position: "absolute",
+                marginTop: "-300px",
+                zIndex: 99999,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "100%",
+                wordWrap: "unset",
+              }}
             >
-              next song
-            </button>
-          </div>
+              <div>
+                Start typing to begin | Enter for{" "}
+                <BtnLink label="next song" onClick={initGameData} />
+              </div>
+            </div>
+          </>
         ) : null}
         {!gameActive && keyboardInput.length ? (
           <div
@@ -185,19 +186,12 @@ const WpmGame = () => {
               zIndex: 99999,
             }}
           >
-            Enter for{" "}
-            <button
-              type="button"
-              style={{ cursor: "pointer" }}
-              onClick={initGameData}
-            >
-              next song
-            </button>
+            Enter for <BtnLink label="next song" onClick={initGameData} />
           </div>
         ) : null}
         {/* {wordsPerMinute}wpm - {secondsSinceGameStarted}s */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <p>
+          <div>
             <span style={{ color: "#f2cc8f" }}>{keyboardInput}</span>
             <span style={{ color: "#e07a5f" }}>
               {nextCharacter === " " ? (
@@ -215,7 +209,7 @@ const WpmGame = () => {
               )}
             </span>
             {remainingTextToType}...
-          </p>
+          </div>
           <span
             style={{
               marginLeft: "auto",
@@ -223,11 +217,37 @@ const WpmGame = () => {
             }}
           >
             {timeStampGameStarted ? wordsPerMinute.toFixed(0) : 0}
-            WPM
+            LPM
           </span>
           <span style={{ marginLeft: "auto" }}>
             {currentSong?.title} | {currentSong?.artist}
           </span>
+          <div
+            style={{
+              marginLeft: "auto",
+              paddingTop: "7px",
+              zIndex: 99999,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            {currentSong?.spotifyUrl ? (
+              <a href={currentSong?.spotifyUrl} target="_blank" rel="noopener">
+                <img
+                  src={SpotifyIcon}
+                  style={{ height: "30px", margin: "4px" }}
+                />
+              </a>
+            ) : null}
+            {currentSong?.youtubeUrl ? (
+              <a href={currentSong?.youtubeUrl} target="_blank" rel="noopener">
+                <img
+                  src={YoutubeIcon}
+                  style={{ height: "30px", margin: "4px" }}
+                />
+              </a>
+            ) : null}
+          </div>
         </div>
         <div
           style={{

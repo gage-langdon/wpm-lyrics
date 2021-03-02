@@ -20,6 +20,21 @@ const Layout = ({ children }) => {
         fontFamily: "PT Mono",
       }}
     >
+      {/* <div
+        style={{
+          paddingTop: "16px",
+          paddingLeft: "16px",
+          opacity: ".70",
+        }}
+      >
+        <h1 style={{ marginBottom: "7px" }}>
+          <span style={{ color: "#f2cc8f" }}>Lyrics Pe</span>
+          <span style={{ color: "#e07a5f" }}>r</span> Minute
+        </h1>
+        <h2 style={{ fontSize: "16px" }}>
+          Practice typing to lyrics of popular songs
+        </h2>
+      </div> */}
       <div
         style={{
           margin: `0 auto`,
@@ -27,10 +42,6 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        {/* <div>
-          <h1>WPM</h1>
-          <h2>Learn to type while singing your favorite songs</h2>
-        </div> */}
         <main>{children}</main>
         <div
           style={{
