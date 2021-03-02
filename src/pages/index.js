@@ -7,7 +7,7 @@ import WpmGame from "../components/wpm-game"
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO title="Practice typing to lyrics of popular songs" />
     <WpmGame />
   </Layout>
 )
