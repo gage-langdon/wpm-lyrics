@@ -15,7 +15,7 @@ const compareStringsWithSplice = (text, textToCompareTo) => {
 const WpmGame = () => {
   const [keyboardInput, setKeyboardInput] = useState("")
   const [currentTextToType, setTextToType] = useState(undefined as dataType) // gotta tell it what types this shit is
-  const [lengthOfInput] = useState(300)
+  const [lengthOfInput] = useState(150)
   const [timeStampGameStarted, setTimeStampGameStarted] = useState(
     undefined as number // milliseconds when current game was started
   )
@@ -60,12 +60,13 @@ const WpmGame = () => {
 
   // Game mechanics
   const onKeyboardInput = e => {
+    const newInputValue = e.target.value
     if (!gameActive) {
-      initGameData()
+      console.log("input", newInputValue)
+      if (newInputValue === `${keyboardInput}\n`) initGameData()
       return
     }
 
-    const newInputValue = e.target.value
     if (!timeStampGameStarted) setTimeStampGameStarted(Date.now)
 
     // dock the user points and dont save new input (only allow players to type in correct characters)
@@ -123,6 +124,25 @@ const WpmGame = () => {
             }}
           >
             Start typing
+          </div>
+        ) : null}
+        {!gameActive && keyboardInput.length ? (
+          <div
+            style={{
+              opacity: ".40",
+              position: "absolute",
+              marginTop: "-300px",
+              zIndex: 99999,
+            }}
+          >
+            Enter to{" "}
+            <button
+              type="button"
+              style={{ cursor: "pointer" }}
+              onClick={initGameData}
+            >
+              restart
+            </button>
           </div>
         ) : null}
         {/* {wordsPerMinute}wpm - {secondsSinceGameStarted}s */}
