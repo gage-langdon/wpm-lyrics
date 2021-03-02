@@ -8,7 +8,6 @@ const compareStringsWithSplice = (text, textToCompareTo) => {
   const max = text.length
   const newChar = text[text.length - 1]
   const expectedChar = textToCompareTo[text.length - 1]
-  console.log(newChar, "=?=", expectedChar)
   return newChar === expectedChar
 }
 
@@ -61,9 +60,8 @@ const WpmGame = () => {
   // Game mechanics
   const onKeyboardInput = e => {
     const newInputValue = e.target.value
+    if (newInputValue === `${keyboardInput}\n`) initGameData()
     if (!gameActive) {
-      console.log("input", newInputValue)
-      if (newInputValue === `${keyboardInput}\n`) initGameData()
       return
     }
 
@@ -85,7 +83,6 @@ const WpmGame = () => {
       1,
       allRemainingCharacters.length
     )
-    // console.log(nextCharacter, " -- ", remainingCharacters)
     return [nextCharacter, remainingCharacters]
   })()
 
@@ -115,15 +112,23 @@ const WpmGame = () => {
           wordSpacing: "3px",
         }}
       >
-        {!keyboardInput.length ? (
+        {!keyboardInput ? (
           <div
             style={{
               opacity: ".40",
               position: "absolute",
               marginTop: "-300px",
+              zIndex: 99999,
             }}
           >
-            Start typing
+            Start typing to start | [Enter] for{" "}
+            <button
+              type="button"
+              style={{ cursor: "pointer" }}
+              onClick={initGameData}
+            >
+              next song
+            </button>
           </div>
         ) : null}
         {!gameActive && keyboardInput.length ? (
@@ -135,13 +140,13 @@ const WpmGame = () => {
               zIndex: 99999,
             }}
           >
-            Enter to{" "}
+            Enter for{" "}
             <button
               type="button"
               style={{ cursor: "pointer" }}
               onClick={initGameData}
             >
-              restart
+              next song
             </button>
           </div>
         ) : null}
