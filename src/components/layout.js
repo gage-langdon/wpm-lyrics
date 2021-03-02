@@ -11,6 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import "@fontsource/pt-mono"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -24,8 +25,13 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+    <div
+      style={{
+        backgroundColor: "#3d405b",
+        color: "#f4f1de",
+        fontFamily: "PT Mono",
+      }}
+    >
       <div
         style={{
           margin: `0 auto`,
@@ -33,8 +39,12 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
+        {/* <div>
+          <h1>WPM</h1>
+          <h2>Learn to type while singing your favorite songs</h2>
+        </div> */}
         <main>{children}</main>
-        <footer
+        {/* <footer
           style={{
             marginTop: `2rem`,
           }}
@@ -42,9 +52,9 @@ const Layout = ({ children }) => {
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </footer>
+        </footer> */}
       </div>
-    </>
+    </div>
   )
 }
 
