@@ -23,6 +23,7 @@ const WpmGame = () => {
     undefined as number // milliseconds when current game was started
   )
   const [gameActive, setGameActive] = useState(false)
+  const [wpms, setWpms] = useState([]) // track wpm by phrase to average
 
   // Select a random data set to load if on initial load or game reset
   const initGameData = () => {
@@ -31,6 +32,7 @@ const WpmGame = () => {
     setGameActive(true)
     setQueuePosition(0)
     setTimeStampGameStarted(undefined)
+    setWpms([])
 
     const randomDataIndex = Math.floor(Math.random() * (data.length - 1 + 1))
     const randomDataSelected = data[randomDataIndex]
@@ -70,6 +72,7 @@ const WpmGame = () => {
     }
     setTimeStampGameStarted(Date.now())
     setQueuePosition(queuePosition)
+    setWpms(state => [...state, getWPM()])
     setKeyboardInput("")
   }
 
@@ -126,15 +129,27 @@ const WpmGame = () => {
     return [nextCharacter, remainingCharacters]
   })()
 
-  const msSinceGameStarted = Date.now() - timeStampGameStarted
-  const secondsSinceGameStarted =
-    timeStampGameStarted === 0 ? 0 : msSinceGameStarted / 1000
-  const numberOfWordsTyped = keyboardInput.length / 5 // its regulation to divide the num of chars by 5
-  const wordsPerMinute =
-    keyboardInput && secondsSinceGameStarted > 0
-      ? (numberOfWordsTyped / secondsSinceGameStarted) * 60
-      : 0
+  const getWPM = () => {
+    const msSinceGameStarted = Date.now() - timeStampGameStarted
+    const secondsSinceGameStarted =
+      timeStampGameStarted === 0 ? 0 : msSinceGameStarted / 1000
+    const numberOfWordsTyped = keyboardInput.length / 5 // its regulation to divide the num of chars by 5
+    const wpm =
+      keyboardInput && secondsSinceGameStarted > 0
+        ? (numberOfWordsTyped / secondsSinceGameStarted) * 60
+        : 0
+    return wpm.toFixed(0)
+  }
 
+  const getAverageWPM = () => {
+    if (!wpms.length) return getWPM()
+    const average =
+      [...wpms, getWPM()]
+        .reduce((acc, wpm) => Number.parseInt(acc) + Number.parseInt(wpm), 0)
+        .toFixed(0) / wpms.length
+    return average.toFixed(0)
+  }
+  const averageWPM = getAverageWPM()
   /*
        200 words / 60 sec = 2.3333wps
 
@@ -155,6 +170,13 @@ const WpmGame = () => {
           wordSpacing: "3px",
         }}
       >
+        {timeStampGameStarted && (
+          <div style={{ paddingBottom: "16px", marginRight: "auto" }}>
+            <span style={{ fontSize: "2rem" }}>{getAverageWPM()}</span>
+            <span style={{ opacity: ".70" }}>LPM</span>
+          </div>
+        )}
+
         {!timeStampGameStarted ? (
           <>
             <div
@@ -210,16 +232,8 @@ const WpmGame = () => {
             </span>
             {remainingTextToType}...
           </div>
-          <span
-            style={{
-              marginLeft: "auto",
-              color: "81b29a",
-            }}
-          >
-            {timeStampGameStarted ? wordsPerMinute.toFixed(0) : 0}
-            LPM
-          </span>
-          <span style={{ marginLeft: "auto" }}>
+
+          <span style={{ marginLeft: "auto", marginTop: "24px" }}>
             {currentSong?.title} | {currentSong?.artist}
           </span>
           <div
