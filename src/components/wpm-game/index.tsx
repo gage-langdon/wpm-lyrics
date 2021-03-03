@@ -184,17 +184,17 @@ const WpmGame = () => {
                 opacity: ".40",
                 position: "absolute",
                 marginTop: "-300px",
+                maxWidth: "960px",
                 zIndex: 99999,
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                flexWrap: "wrap",
                 width: "100%",
-                wordWrap: "unset",
+                paddingLeft: "1.0875rem",
               }}
             >
+              <div style={{ paddingRight: "12px" }}>Start typing to begin.</div>
               <div>
-                Start typing to begin | Enter for{" "}
-                <BtnLink label="next song" onClick={initGameData} />
+                Enter for <BtnLink label="next song" onClick={initGameData} />
               </div>
             </div>
           </>

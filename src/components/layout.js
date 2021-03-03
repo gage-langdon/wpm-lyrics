@@ -40,19 +40,26 @@ const Layout = ({ children }) => {
           margin: `0 auto`,
           maxWidth: 960,
           padding: `0 1.0875rem 1.45rem`,
+          height: "100vh",
         }}
       >
-        <main>{children}</main>
+        {children}
         <div
           style={{
+            position: "fixed",
+            bottom: 0,
+            right: 0,
             display: "flex",
             width: "100%",
+            paddingRight: "16px",
+            paddingBottom: "16px",
           }}
         >
           <a
             href="https://gage-langdon.com"
             style={{
               marginLeft: "auto",
+
               color: "white",
               opacity: ".40",
               textDecoration: "none",
